@@ -1,4 +1,4 @@
-# RES API  WITH STANDARD GO LIBRARY
+# REST API  WITH STANDARD GO LIBRARY
 
 The previous project focused on creating a web server using common Go packages. Now, let's apply that knowledge to build a REST API.
 
@@ -6,7 +6,7 @@ The previous project focused on creating a web server using common Go packages. 
 
 CRUD stands for **C**reate, **R**ead, **U**pdate, and **D**elete, which are the four basic operations that can be performed on an API resource. These operations are fundamental in the context of data management and are often associated with database systems and web applications. 
 
-| **CRUD** | **HTTP** | **REST** | **Behaviour**
+| **CRUD** | **HTTP** | **REST** | **Behavior**
 | --- | --- | --- | --- |
 | Create | POST | /api/movies | Create a movie within movies collection resource |
 | Read | GET | /api/movies | Read the list of movies |
@@ -74,7 +74,7 @@ func (c *contacts) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 }
 ```
 
-### Avoid errors handling endpoints
+### Avoid handling errors in endpoints.
 
 The API needs to route the request to the proper handler.
 
@@ -101,13 +101,13 @@ func (c *contacts) ServeHTTP(resp http.ResponseWriter, req *http.Request) {
 
 The `Request struct` represents an HTTP request in Go's standard library: It encapsulates various components of an HTTP request, including the request method, URL, protocol version, headers, body, and other relevant details.
 
-The most relevant Request fields are:
+The most relevant `Request fields` are:
 
 - **Method string** - HTTP method
-- **URL *url.URL** -  URL for the request URL
+- **URL \*url.URL** -  URL for the request URL
 - **Header Header** - Header for request headers
 - **Body io.ReadCloser** - Body for the request body
-- **Response *Response** -  Information about the redirect response in the case of client redirects. 
+- **Response \*Response** -  Information about the redirect response in the case of client redirects. 
 
 ### How print the body of req *http.Request
 
