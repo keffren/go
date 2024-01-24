@@ -6,3 +6,4 @@ This repository is designed for hands-on learning and skill enhancement with Gol
 
 - **Project n-1**: [Create a Web Server with Standard Library](/project_1/)
 - **Project n-2**: [Create a REST API with Standard Library](/project_2/)
+- **Project n-3**: [Create a REST API with Gorilla/mux](/project_3/)
