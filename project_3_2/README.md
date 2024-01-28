@@ -15,7 +15,7 @@ It is fast and consistent in performance, and low latency retrieval(Single-digit
 
 DynamoDB is a **key-value par** and document database.
 
-![](/project_3_2/resources/dyanamodb_table.png)
+![](/project_3_2/docs/dyanamodb_table.png)
 
 It is similar than relational database table, but the difference are: It is not relational database (NoSQL), instead of a table is an item and it is schemaless.
 

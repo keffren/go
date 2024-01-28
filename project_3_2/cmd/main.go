@@ -1,17 +1,9 @@
 package main
 
-import (
-	"context"
-	"log"
-
-	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-)
-
 func main() {
 
 	// Load the AWS Configuration profile (~/.aws/config)
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+	/*cfg, err := config.LoadDefaultConfig(context.TODO())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,7 +17,7 @@ func main() {
 	}
 
 	//table.Init()
-	log.Println(Table)
+	log.Println(Table) */
 
 	/* newContact := Contact{
 		Id:      2,
@@ -39,6 +31,6 @@ func main() {
 
 	items_ls, err := table.GetItems()
 	log.Println(err)
-	log.Println(ParseListItemsToListContacts(items_ls)) */
+	log.Println(app.ParseListItemsToListContacts(items_ls))*/
 
 }
