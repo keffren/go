@@ -1,4 +1,4 @@
-module github.com/keffren/golang/project-3
+module github.com/keffren/go/project-3
 
 go 1.21.6
 
