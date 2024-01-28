@@ -1,8 +1,8 @@
 go 1.21.6
 
 use (
-	./project_1
-	./project_2
-	./project_3
-	./project_3_2
+	./project-1
+	./project-2
+	./project-3
+	./project-3-2
 )

@@ -1,6 +1,6 @@
 # REST API WITH GORILLA/MUX AND DYNAMODB ***[WIP]***
 
-The last [project](/project_3/) I have build a REST API using the Gorilla/Mux Go package. 
+The last [project](/project-3/) I have build a REST API using the Gorilla/Mux Go package. 
 
 In this project, I will leverage the API and modify the data type to DynamoDB (NoSQL DB) instead of using data as a Go variable.
 
@@ -15,7 +15,7 @@ It is fast and consistent in performance, and low latency retrieval(Single-digit
 
 DynamoDB is a **key-value par** and document database.
 
-![](/project_3_2/docs/dyanamodb_table.png)
+![](/project-3-2/docs/dyanamodb_table.png)
 
 It is similar than relational database table, but the difference are: It is not relational database (NoSQL), instead of a table is an item and it is schemaless.
 
