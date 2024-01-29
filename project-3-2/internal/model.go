@@ -2,6 +2,7 @@ package internal
 
 import (
 	"log"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
@@ -27,19 +28,15 @@ func (c Contact) ParseToItem() (map[string]types.AttributeValue, error) {
 	return res, err
 }
 
-func (c Contact) GetKey() (map[string]types.AttributeValue, error) {
-	key := map[string]uint64{
-		"Id":    c.Id,
-		"Phone": c.Phone,
+func (c Contact) GetKey() map[string]types.AttributeValue {
+
+	contactKey := map[string]types.AttributeValue{
+		"Id": &types.AttributeValueMemberN{
+			Value: strconv.FormatUint(uint64(c.Id), 10),
+		},
 	}
 
-	keyConverted, err := attributevalue.MarshalMap(key)
-
-	if err != nil {
-		log.Printf("Error converting contact type to attributevalue type:\n%v", err)
-	}
-
-	return keyConverted, err
+	return contactKey
 }
 
 func ParseItemToContact(item map[string]types.AttributeValue) (Contact, error) {

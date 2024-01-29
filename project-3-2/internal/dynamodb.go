@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"reflect"
+	"strconv"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -36,6 +37,7 @@ func (table MyDynamoDBTable) Init() {
 	}
 
 	//Wait table creation
+	log.Print("DynamoDB - Waiting table creation ...")
 	waiter := dynamodb.NewTableExistsWaiter(table.DynamoDbClient)
 	waiterERR := waiter.Wait(
 		context.TODO(),
@@ -108,19 +110,11 @@ func (table MyDynamoDBTable) createContactsTable() error {
 				AttributeName: aws.String("Id"),
 				AttributeType: types.ScalarAttributeTypeN,
 			},
-			{
-				AttributeName: aws.String("Phone"),
-				AttributeType: types.ScalarAttributeTypeN,
-			},
 		},
 		KeySchema: []types.KeySchemaElement{
 			{
 				AttributeName: aws.String("Id"),
 				KeyType:       types.KeyTypeHash,
-			},
-			{
-				AttributeName: aws.String("Phone"),
-				KeyType:       types.KeyTypeRange,
 			},
 		},
 		TableName: &table.TableName,
@@ -173,26 +167,26 @@ func (table MyDynamoDBTable) AddItem(c Contact) error {
 }
 
 // Retrieve a contact Item from Contacts DynamoDB table based on its KEY
-func (table MyDynamoDBTable) GetItem(c Contact) (map[string]types.AttributeValue, error) {
+func (table MyDynamoDBTable) GetItem(id uint64) (map[string]types.AttributeValue, error) {
 
-	contactKey, getKeyERR := c.GetKey()
-
-	if getKeyERR != nil {
-		log.Fatal(getKeyERR)
+	contactKey := map[string]types.AttributeValue{
+		"Id": &types.AttributeValueMemberN{
+			Value: strconv.FormatUint(uint64(id), 10),
+		},
 	}
 
-	item := dynamodb.GetItemInput{
+	itemInput := dynamodb.GetItemInput{
 		Key:       contactKey,
 		TableName: &table.TableName,
 	}
 
-	itemOutput, err := table.DynamoDbClient.GetItem(context.TODO(), &item)
+	itemOutput, err := table.DynamoDbClient.GetItem(context.TODO(), &itemInput)
 
-	if err == nil {
-		log.Printf("DynamoDB - Couldn't retrieve the item with ID:%v\n%v\n", c.Id, err)
+	if err != nil {
+		log.Printf("DynamoDB - Couldn't retrieve the item with ID:%v\n%v\n", id, err)
 		return nil, err
 	} else {
-		log.Printf("DynamoDB - Item with ID:%v has been gotten successfully!\n%v\n", c.Id, itemOutput.Item)
+		log.Printf("DynamoDB - Item with ID:%v has been gotten successfully!\n%v\n", id, itemOutput.Item)
 		return itemOutput.Item, err
 	}
 }
@@ -241,12 +235,12 @@ func (table MyDynamoDBTable) GetItems() ([]map[string]types.AttributeValue, erro
 }
 
 // Delete a contact Item from Contacts DynamoDB table based on its ID
-func (table MyDynamoDBTable) DeleteItem(c Contact) error {
+func (table MyDynamoDBTable) DeleteItem(id uint64) error {
 
-	contactKey, getKeyERR := c.GetKey()
-
-	if getKeyERR != nil {
-		log.Fatal("DynamoDB - Couldn't retrieve the Item key to delete")
+	contactKey := map[string]types.AttributeValue{
+		"Id": &types.AttributeValueMemberN{
+			Value: strconv.FormatUint(uint64(id), 10),
+		},
 	}
 
 	deleteItemInput := dynamodb.DeleteItemInput{
@@ -256,10 +250,10 @@ func (table MyDynamoDBTable) DeleteItem(c Contact) error {
 
 	_, err := table.DynamoDbClient.DeleteItem(context.TODO(), &deleteItemInput)
 
-	if err == nil {
-		log.Printf("DynamoDB - Couldn't delete item with ID:%v\n%v\n", c.Id, err)
+	if err != nil {
+		log.Printf("DynamoDB - Couldn't delete item with ID:%v\n%v\n", id, err)
 	} else {
-		log.Printf("DynamoDB - Item with ID:%v deleted successfully!\n", c.Id)
+		log.Printf("DynamoDB - Item with ID:%v deleted successfully!\n", id)
 	}
 
 	return err
@@ -268,11 +262,7 @@ func (table MyDynamoDBTable) DeleteItem(c Contact) error {
 // Update one o more item attributes
 func (table MyDynamoDBTable) UpdateIem(c Contact) error {
 
-	contactKey, getKeyERR := c.GetKey()
-
-	if getKeyERR != nil {
-		log.Fatal("DynamoDB - Couldn't retrieve the Item key to delete")
-	}
+	contactKey := c.GetKey()
 
 	/* To iterate over a custom struct (Contacts), it needs to use 'reflection package'
 	   because Go can't do it itself.
@@ -285,7 +275,7 @@ func (table MyDynamoDBTable) UpdateIem(c Contact) error {
 	var updateExpression expression.UpdateBuilder
 
 	for i := 0; i < val.NumField(); i++ {
-		if typ.Field(i).Name != "Id" && typ.Field(i).Name != "Phone" {
+		if typ.Field(i).Name != "Id" {
 			if !val.Field(i).IsZero() {
 				updateExpression = updateExpression.Set(
 					expression.Name(typ.Field(i).Name),
