@@ -1,4 +1,4 @@
-# REST API WITH GORILLA/MUX AND DYNAMODB ***[WIP]***
+# REST API WITH GORILLA/MUX AND DYNAMODB
 
 The last [project](/project-3/) I have build a REST API using the Gorilla/Mux Go package. 
 
