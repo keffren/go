@@ -139,6 +139,32 @@ func (table MyDynamoDBTable) createContactsTable() error {
 	return err
 }
 
+func ParseItemToContact(item map[string]types.AttributeValue) (Contact, error) {
+
+	contact := Contact{}
+	err := attributevalue.UnmarshalMap(item, &contact)
+
+	return contact, err
+}
+
+func ParseListItemsToListContacts(item_ls []map[string]types.AttributeValue) ([]Contact, error) {
+
+	contacts_ls := make([]Contact, 0)
+
+	for _, item := range item_ls {
+
+		contact, err := ParseItemToContact(item)
+
+		if err != nil {
+			return nil, err
+		} else {
+			contacts_ls = append(contacts_ls, contact)
+		}
+	}
+
+	return contacts_ls, nil
+}
+
 // ################## CRUD OPERATIONS
 
 // Put contact Item into Contacts DynamoDB table
@@ -183,12 +209,14 @@ func (table MyDynamoDBTable) GetItem(id uint64) (map[string]types.AttributeValue
 	itemOutput, err := table.DynamoDbClient.GetItem(context.TODO(), &itemInput)
 
 	if err != nil {
-		log.Printf("DynamoDB - Couldn't retrieve the item with ID:%v\n%v\n", id, err)
-		return nil, err
-	} else {
+		log.Printf("DynamoDB - Error retrieving the item with ID:%v\n%v\n", id, err)
+	} else if len(itemOutput.Item) == 0 {
+		log.Printf("DynamoDB - The item with ID:%v doesn't exist\n", id)
+	} else if len(itemOutput.Item) > 0 {
 		log.Printf("DynamoDB - Item with ID:%v has been gotten successfully!\n%v\n", id, itemOutput.Item)
-		return itemOutput.Item, err
+		log.Print(len(itemOutput.Item))
 	}
+	return itemOutput.Item, err
 }
 
 // Retrieve all items from Contacts table

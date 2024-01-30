@@ -38,29 +38,3 @@ func (c Contact) GetKey() map[string]types.AttributeValue {
 
 	return contactKey
 }
-
-func ParseItemToContact(item map[string]types.AttributeValue) (Contact, error) {
-
-	contact := Contact{}
-	err := attributevalue.UnmarshalMap(item, &contact)
-
-	return contact, err
-}
-
-func ParseListItemsToListContacts(item_ls []map[string]types.AttributeValue) ([]Contact, error) {
-
-	contacts_ls := make([]Contact, 0)
-
-	for _, item := range item_ls {
-
-		contact, err := ParseItemToContact(item)
-
-		if err != nil {
-			return nil, err
-		} else {
-			contacts_ls = append(contacts_ls, contact)
-		}
-	}
-
-	return contacts_ls, nil
-}

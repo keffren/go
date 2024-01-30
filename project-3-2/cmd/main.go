@@ -34,16 +34,19 @@ func main() {
 		Database: &contactsTable,
 	}
 
+	// Uncomment for create the table Contacts and populate it
+	//contactsHandler.Database.Init()
+
 	// ######################################  Web Server
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/v1/contacts", contactsHandler.GetContacts).Methods("GET")
-	/* router.HandleFunc("/api/v1/contacts/{id:[0-9]+}", contactsHandler.GetContact).Methods("GET")
+	router.HandleFunc("/api/v1/contacts/{id:[0-9]+}", contactsHandler.GetContact).Methods("GET")
 	router.HandleFunc("/api/v1/contacts", contactsHandler.CreateContact).Methods("POST")
 	router.HandleFunc("/api/v1/contacts/{id:[0-9]+}", contactsHandler.UpdateContact).Methods("PUT")
 	router.HandleFunc("/api/v1/contacts", contactsHandler.DeleteContacts).Methods("DELETE")
-	router.HandleFunc("/api/v1/contacts/{id:[0-9]+}", contactsHandler.DeleteContact).Methods("DELETE") */
+	router.HandleFunc("/api/v1/contacts/{id:[0-9]+}", contactsHandler.DeleteContact).Methods("DELETE")
 
 	log.Print("Listening on port 3001")
-	http.ListenAndServe(":3001", router)
+	log.Fatal(http.ListenAndServe(":3001", router))
 }
