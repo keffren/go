@@ -1,4 +1,4 @@
-package main
+package rest
 
 import (
 	"database/sql"
@@ -23,6 +23,6 @@ func (a *App) Initialize(h string, p int, u string, pw string, dbName string) {
 
 }
 
-func (a *App) run(p string) {
+func (a *App) Run(p string) {
 
 }

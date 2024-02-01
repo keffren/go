@@ -2,11 +2,13 @@ package main
 
 import (
 	"os"
+
+	"github.com/keffren/go/project-4/internal/rest"
 )
 
 func main() {
 
-	app := App{}
+	app := rest.App{}
 
 	app.Initialize(
 		"localhost",
@@ -16,5 +18,5 @@ func main() {
 		os.Getenv("DB_NAME"),
 	)
 
-	app.run(":3001")
+	app.Run(":3001")
 }
