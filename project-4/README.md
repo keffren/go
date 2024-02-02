@@ -4,20 +4,23 @@ TODO
 
 ## Project Layout
 
-├── **cmd**
-│   └── **app**
+```
+├── cmd
+│   └── app
 │       └── main.go
-├── **internal**
-│   └── **rest**
+│       └── main_test.go
+├── internal
+│   └── rest
 │       └── handlers.go
-├── **pkg**
-│   └── **database**
+├── pkg
+│   └── database
 │       ├── model.go
 │       └── schema.sql
-├── **test**
+├── test
 │   └── main_test.go
 ├── go.mod
 ├── go.sum
+```
 
 ### Go directories
 
