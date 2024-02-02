@@ -12,7 +12,7 @@ func main() {
 
 	app.Initialize(
 		"localhost",
-		3452,
+		5432,
 		os.Getenv("DB_USERNAME"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),
