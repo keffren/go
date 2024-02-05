@@ -58,11 +58,14 @@ func (a *App) Initialize(h string, p int, u string, pw string, dbName string) {
 		log.Printf("%v DB Connection stablished with %v user\n", dbName, u)
 	}
 	a.DB = db
+
+	// Initialize Router
 	a.Router = mux.NewRouter()
 }
 
 func (a *App) Run(addr string) {
 
+	// Route Handlers for "products" resource
 	a.Router.HandleFunc("/products", a.getProducts).Methods("GET")
 	a.Router.HandleFunc("/products/{id:[0-9]+}", a.getProduct).Methods("GET")
 	a.Router.HandleFunc("/products", a.createProduct).Methods("POST")
@@ -72,8 +75,6 @@ func (a *App) Run(addr string) {
 	// Execute the web server
 	log.Printf("Listening at port %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, a.Router))
-
-	//Close DB
 }
 
 func (a *App) getProducts(w http.ResponseWriter, r *http.Request) {
@@ -176,6 +177,7 @@ func (a *App) deleteProduct(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Delete product
 	if err := p.DeleteProduct(a.DB); err != nil {
 		respondWithError(w, http.StatusBadRequest, "Error deleting product")
 		return
