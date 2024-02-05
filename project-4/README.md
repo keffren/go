@@ -59,5 +59,6 @@ Useful resources:
 
 ## Extra resources
 
-- [Postgres in GO](https://hevodata.com/learn/golang-postgres/)
+- [PostgreSQL Basics](https://www.w3schools.com/postgresql/index.php)
+- [PostgreSQL in GO](https://hevodata.com/learn/golang-postgres/)
 - [Testing package](https://www.youtube.com/watch?v=FjkSJ1iXKpg&ab_channel=GolangDojo)
