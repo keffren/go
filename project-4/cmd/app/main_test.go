@@ -3,6 +3,7 @@ package main_test
 import (
 	"bytes"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 	"net/http/httptest"
@@ -62,7 +63,7 @@ func TestGetNonExistentProduct(t *testing.T) {
 	clearTable()
 
 	//Fetch product with ID = 11
-	req, _ := http.NewRequest("GET", "/product/11", nil)
+	req, _ := http.NewRequest("GET", "/products/11", nil)
 
 	// Check product doesn't exist from http response
 	resp := executeRequest(req)
@@ -80,7 +81,7 @@ func TestCreateProduct(t *testing.T) {
 
 	// Send POST request (add product)
 	var jsonStr = []byte(`{"name":"test product", "price": 11.22}`)
-	req, _ := http.NewRequest("POST", "/product", bytes.NewBuffer(jsonStr))
+	req, _ := http.NewRequest("POST", "/products", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 
 	// Check the product has been added from the http response
@@ -109,7 +110,7 @@ func TestGetProduct(t *testing.T) {
 	clearTable()
 	addProducts(1)
 
-	req, _ := http.NewRequest("GET", "/product/1", nil)
+	req, _ := http.NewRequest("GET", "/products/1", nil)
 	resp := executeRequest(req)
 
 	checkResponseCode(t, http.StatusOK, resp.Code)
@@ -121,15 +122,15 @@ func TestUpdateProduct(t *testing.T) {
 	addProducts(1)
 
 	// Get product with Id: 1
-	req, _ := http.NewRequest("GET", "/product/1", nil)
+	req, _ := http.NewRequest("GET", "/products/1", nil)
 	resp := executeRequest(req)
 
 	originalProduct := make(map[string]interface{})
 	json.Unmarshal(resp.Body.Bytes(), &originalProduct)
 
 	// Update product with Id: 1
-	var jsonStr = []byte(`{"name":"test product - updated name", "price": 11.22}`)
-	req, _ = http.NewRequest("PUT", "/product/1", bytes.NewBuffer(jsonStr))
+	var jsonStr = []byte(`{"name":"product-updated", "price": 11.22}`)
+	req, _ = http.NewRequest("PUT", "/products/1", bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
 
 	resp = executeRequest(req)
@@ -138,7 +139,8 @@ func TestUpdateProduct(t *testing.T) {
 	checkResponseCode(t, http.StatusOK, resp.Code)
 
 	m := make(map[string]interface{})
-	json.Unmarshal(resp.Body.Bytes(), &m)
+	aux, _ := io.ReadAll(resp.Body)
+	json.Unmarshal(aux, &m)
 
 	if m["id"] != originalProduct["id"] {
 		t.Errorf("Expected the id to remain the same (%v). Got %v", originalProduct["id"], m["id"])
@@ -157,16 +159,16 @@ func TestDeleteProduct(t *testing.T) {
 	clearTable()
 	addProducts(1)
 
-	req, _ := http.NewRequest("GET", "/product/1", nil)
+	req, _ := http.NewRequest("GET", "/products/1", nil)
 	resp := executeRequest(req)
 	checkResponseCode(t, http.StatusOK, resp.Code)
 
-	req, _ = http.NewRequest("DELETE", "/product/1", nil)
+	req, _ = http.NewRequest("DELETE", "/products/1", nil)
 	resp = executeRequest(req)
 
 	checkResponseCode(t, http.StatusOK, resp.Code)
 
-	req, _ = http.NewRequest("GET", "/product/1", nil)
+	req, _ = http.NewRequest("GET", "/products/1", nil)
 	resp = executeRequest(req)
 	checkResponseCode(t, http.StatusNotFound, resp.Code)
 }

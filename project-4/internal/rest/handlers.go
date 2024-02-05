@@ -61,17 +61,19 @@ func (a *App) Initialize(h string, p int, u string, pw string, dbName string) {
 
 	// Initialize Router
 	a.Router = mux.NewRouter()
+	a.InitializeRouterHandlers()
 }
 
-func (a *App) Run(addr string) {
-
+func (a *App) InitializeRouterHandlers() {
 	// Route Handlers for "products" resource
 	a.Router.HandleFunc("/products", a.getProducts).Methods("GET")
 	a.Router.HandleFunc("/products/{id:[0-9]+}", a.getProduct).Methods("GET")
 	a.Router.HandleFunc("/products", a.createProduct).Methods("POST")
 	a.Router.HandleFunc("/products/{id:[0-9]+}", a.updateProduct).Methods("PUT")
 	a.Router.HandleFunc("/products/{id:[0-9]+}", a.deleteProduct).Methods("DELETE")
+}
 
+func (a *App) Run(addr string) {
 	// Execute the web server
 	log.Printf("Listening at port %s\n", addr)
 	log.Fatal(http.ListenAndServe(addr, a.Router))
@@ -144,22 +146,44 @@ func (a *App) createProduct(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) updateProduct(w http.ResponseWriter, r *http.Request) {
 
-	// Get product arguments, from request, to update
-	reqBody, _ := io.ReadAll(r.Body)
-	updateP := database.Product{}
-	json.Unmarshal(reqBody, &updateP)
+	// Get product ID
+	vars := mux.Vars(r)
+	pID, parseERR := strconv.Atoi(vars["id"])
 
-	if updateP.Name == "" && updateP.Price == 0 {
+	if parseERR != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid product ID")
+		return
+	}
+
+	// Get product arguments(name, price) to update
+
+	/* reqBody, _ := io.ReadAll(r.Body)
+	p := database.Product{}
+	json.Unmarshal(reqBody, &p)
+	p.ID = pID */
+
+	p := database.Product{}
+	decoder := json.NewDecoder(r.Body)
+
+	if err := decoder.Decode(&p); err != nil {
+		respondWithError(w, http.StatusBadRequest, "Invalid resquest payload")
+		return
+	}
+
+	defer r.Body.Close()
+	p.ID = pID
+
+	if p.Name == "" && p.Price == 0 {
 		respondWithError(w, http.StatusBadRequest, "Invalid product values")
 		return
 	}
 
 	// Update the product
-	if err := updateP.UpdateProduct(a.DB); err != nil {
+	if err := p.UpdateProduct(a.DB); err != nil {
 		respondWithError(w, http.StatusInternalServerError, "Internal Error")
 	}
 
-	respondWithJSON(w, http.StatusOK, "Product updated")
+	respondWithJSON(w, http.StatusOK, p)
 
 }
 
