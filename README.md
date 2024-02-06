@@ -9,4 +9,4 @@ This repository is designed for hands-on learning and skill enhancement with Gol
 - **Project n-3**:
     - **Project n-3-1**: [Create a REST API with Gorilla/mux](/project-3/)
     - **Project n-3-2**: [REST API with Gorilla/mux and DynamoDB](/project-3-2/)
-- **Project n-4**: [Create a REST API with PostgreSQL **WIP**](/project-4/)
+- **Project n-4**: [Create a REST API with PostgreSQL](/project-4/)
