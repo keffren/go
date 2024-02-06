@@ -1,0 +1,40 @@
+# Workflow -> Job -> Step -> Action
+name: A workflow for test
+on: 
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: go project
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 1234556789
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+
+      - name: Install dependencies
+        run: go mod download
+      
+      - name: Test
+        run: |
+          source project-4/.env
+          go test -v ./project-4/cmd/app
