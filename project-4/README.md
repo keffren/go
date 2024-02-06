@@ -78,9 +78,9 @@ ok  	github.com/keffren/go/project-4/cmd/app	0.041s
 ### POSTMAN
 
 <details>
-Here's a simple POSTMAN collection to validate the REST API
-</details>
 <summary>
+Here's a simple POSTMAN collection to validate the REST API
+</summary>
 
 ```
 {
@@ -220,7 +220,8 @@ Here's a simple POSTMAN collection to validate the REST API
 	]
 }
 ```
-</summary>
+
+</details>
 
 ## Extra resources
 
