@@ -1,0 +1,19 @@
+name: A workflow for check the documentation links 
+on: push
+
+jobs:
+  markdown-link-checker:
+    name: Links checker
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+      - name: install markdown-link-check
+        run: |
+          npm install -g markdown-link-check
+          markdown-link-check -v **/*.md
+
