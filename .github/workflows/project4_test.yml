@@ -1,8 +1,9 @@
 # Workflow -> Job -> Step -> Action
-name: A workflow for test
+name: API TEST
 on: 
   push:
-    branches: [ "main" ]
+    paths:
+      - 'project-4/**/*'
 
 jobs:
   build:
