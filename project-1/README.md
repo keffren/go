@@ -21,7 +21,7 @@ In Go, a "mux" typically refers to a router or multiplexer used in web developme
 
 > Multiplexer is a device that enables the simultaneous transmission of several messages or signals over one communications channel.
 
-![](/project-1/resources/multiplexer.png)
+![](resources/multiplexer.png)
 
 In the context of Go's standard library, the "net/http" package includes a basic ServeMux type, which is a simple HTTP request multiplexer. It allows you to associate different handler functions with different URL patterns.
 
