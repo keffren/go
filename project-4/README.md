@@ -1,3 +1,6 @@
+[![Link-Checker](https://github.com/keffren/go/actions/workflows/link_checker.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/link_checker.yml)
+[![API TEST](https://github.com/keffren/go/actions/workflows/project4_test.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/project4_test.yml)
+
 # REST API WITH POSTGRESQL
 
 In this project, I will perform the next tutorial, which I highly recommend to Gophers beginners: [Building and Testing a REST API in Go with Gorilla Mux and PostgreSQL using TDD](https://semaphoreci.com/community/tutorials/building-and-testing-a-rest-api-in-go-with-gorilla-mux-and-postgresql)

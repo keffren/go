@@ -1,3 +1,5 @@
+[![Link-Checker](https://github.com/keffren/go/actions/workflows/link_checker.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/link_checker.yml)
+
 # Create a Web Server with Standard Library
 
 ## What is the standard library?

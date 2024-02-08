@@ -1,3 +1,5 @@
+[![Link-Checker](https://github.com/keffren/go/actions/workflows/link_checker.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/link_checker.yml)
+
 # REST API WITH GORILLA/MUX
 
 ## Gorilla/Mux

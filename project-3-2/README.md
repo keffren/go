@@ -1,3 +1,5 @@
+[![Link-Checker](https://github.com/keffren/go/actions/workflows/link_checker.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/link_checker.yml)
+
 # REST API WITH GORILLA/MUX AND DYNAMODB
 
 The last [project](../project-3-2/README.md) I have build a REST API using the Gorilla/Mux Go package. 

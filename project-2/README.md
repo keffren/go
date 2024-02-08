@@ -1,3 +1,5 @@
+[![Link-Checker](https://github.com/keffren/go/actions/workflows/link_checker.yml/badge.svg)](https://github.com/keffren/go/actions/workflows/link_checker.yml)
+
 # REST API  WITH STANDARD GO LIBRARY
 
 The previous project focused on creating a web server using common Go packages. Now, let's apply that knowledge to build a REST API.
