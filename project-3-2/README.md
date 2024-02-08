@@ -1,6 +1,6 @@
 # REST API WITH GORILLA/MUX AND DYNAMODB
 
-The last [project](/project-3/) I have build a REST API using the Gorilla/Mux Go package. 
+The last [project](/project-3/README.md) I have build a REST API using the Gorilla/Mux Go package. 
 
 In this project, I will leverage the API and modify the data type to DynamoDB (NoSQL DB) instead of using data as a Go variable.
 
