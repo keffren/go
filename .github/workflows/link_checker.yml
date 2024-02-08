@@ -1,4 +1,4 @@
-name: A workflow for check the documentation links 
+name: Link-Checker
 on: push
 
 jobs:
